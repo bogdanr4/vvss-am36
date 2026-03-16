@@ -1,12 +1,14 @@
 package drinkshop.ui;
 
 import drinkshop.domain.*;
+import drinkshop.reports.DailyReportService;
 import drinkshop.repository.Repository;
-import drinkshop.repository.file.FileOrderRepository;
-import drinkshop.repository.file.FileProductRepository;
-import drinkshop.repository.file.FileRetetaRepository;
-import drinkshop.repository.file.FileStocRepository;
-import drinkshop.service.DrinkShopService;
+import drinkshop.repository.file.*;
+import drinkshop.service.*;
+import drinkshop.service.validator.OrderValidator;
+import drinkshop.service.validator.ProductValidator;
+import drinkshop.service.validator.RetetaValidator;
+import drinkshop.service.validator.StocValidator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,10 +24,19 @@ public class DrinkShopApp extends Application {
         Repository<Integer, Order> orderRepo = new FileOrderRepository("data/orders.txt", productRepo);
         Repository<Integer, Reteta> retetaRepo = new FileRetetaRepository("data/retete.txt");
         Repository<Integer, Stoc> stocRepo = new FileStocRepository("data/stocuri.txt");
+        Repository<Integer, TipBautura> tipRepo = new FileTipBauturaRepository("data/tipuri.txt");
+        Repository<Integer, CategorieBautura> categorieRepo = new FileCategorieRepository("data/categorii.txt");
 
         // ---------- Initializare Service ----------
-        DrinkShopService service = new DrinkShopService(productRepo, orderRepo, retetaRepo, stocRepo);
+        ProductService productService = new ProductService(productRepo, new ProductValidator());
+        RetetaService retetaService = new RetetaService(retetaRepo, new RetetaValidator());
+        OrderService orderService = new OrderService(orderRepo, productRepo, new OrderValidator());
+        StocService stocService = new StocService(stocRepo, new StocValidator());
+        DailyReportService dailyReport = new DailyReportService(orderRepo);
+        CategorieService categorieService = new CategorieService(categorieRepo);
+        TipBauturaService tipBauturaService = new TipBauturaService(tipRepo);
 
+        DrinkShopService service = new DrinkShopService(productService, orderService, retetaService, stocService, dailyReport, tipBauturaService, categorieService);
         // ---------- Incarcare FXML ----------
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("drinkshop.fxml"));
