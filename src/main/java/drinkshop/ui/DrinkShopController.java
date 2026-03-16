@@ -77,6 +77,8 @@ public class DrinkShopController {
 
     private Order currentOrder = new Order(1);
 
+    private String introduceNameString = "Introduceți un nume.";
+
     public void setService(DrinkShopService service) {
         this.service = service;
         initData();
@@ -301,7 +303,7 @@ public class DrinkShopController {
     @FXML
     private void onAddTip() {
         String name = txtTipName.getText().trim();
-        if (name.isEmpty()) { showError("Introduceți un nume."); return; }
+        if (name.isEmpty()) { showError(introduceNameString); return; }
         int newId = service.getAllTipuri().stream().mapToInt(TipBautura::getId).max().orElse(0) + 1;
         try {
             service.addTip(new TipBautura(newId, name));
@@ -318,7 +320,7 @@ public class DrinkShopController {
         TipBautura selected = tipTable.getSelectionModel().getSelectedItem();
         if (selected == null) { showError("Selectați un tip."); return; }
         String name = txtTipName.getText().trim();
-        if (name.isEmpty()) { showError("Introduceți un nume."); return; }
+        if (name.isEmpty()) { showError(introduceNameString); return; }
         try {
             service.updateTip(new TipBautura(selected.getId(), name));
         } catch (ValidationException e) {
@@ -346,7 +348,7 @@ public class DrinkShopController {
     @FXML
     private void onAddCategorie() {
         String name = txtCategorieName.getText().trim();
-        if (name.isEmpty()) { showError("Introduceți un nume."); return; }
+        if (name.isEmpty()) { showError(introduceNameString); return; }
         int newId = service.getAllCategorii().stream().mapToInt(CategorieBautura::getId).max().orElse(0) + 1;
         try {
             service.addCategorie(new CategorieBautura(newId, name));
@@ -363,7 +365,7 @@ public class DrinkShopController {
         CategorieBautura selected = categorieTable.getSelectionModel().getSelectedItem();
         if (selected == null) { showError("Selectați o categorie."); return; }
         String name = txtCategorieName.getText().trim();
-        if (name.isEmpty()) { showError("Introduceți un nume."); return; }
+        if (name.isEmpty()) { showError(introduceNameString); return; }
         try {
             service.updateCategorie(new CategorieBautura(selected.getId(), name));
         } catch (ValidationException e) {
