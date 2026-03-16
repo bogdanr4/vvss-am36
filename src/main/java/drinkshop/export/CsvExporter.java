@@ -19,7 +19,7 @@ public class CsvExporter {
             for (Order o : orders){
                 for (OrderItem i : o.getItems()) {
                     Product p = products.stream().filter((p1)->i.getProduct().getId()==p1.getId()).toList().get(0);
-                    w.write(o.getId() + "," + p.getNume() + "," + i.getQuantity() + "," + i.getTotal() + "\n");
+                    w.write(o.getId() + "," + p.getNume() + "," + i.getQuantity() + "," + i.getQuantity() * p.getPret() + "\n");
                 }
                 w.write("total order: "+o.getTotal()+" RON\n");
                 w.write("-------------------------------\n");

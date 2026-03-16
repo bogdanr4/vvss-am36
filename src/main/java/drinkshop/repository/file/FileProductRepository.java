@@ -1,8 +1,6 @@
 package drinkshop.repository.file;
 
 import drinkshop.domain.Product;
-import drinkshop.domain.CategorieBautura;
-import drinkshop.domain.TipBautura;
 
 public class FileProductRepository
         extends FileAbstractRepository<Integer, Product> {

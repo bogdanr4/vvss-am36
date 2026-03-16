@@ -13,8 +13,8 @@ public class TipBauturaService {
         this.repo = repo;
     }
 
-    public void add(TipBautura t) { repo.save(t); }
-    public void update(TipBautura t) { repo.update(t); }
+    public void add(TipBautura tipBautura) { repo.save(tipBautura); }
+    public void update(TipBautura tipBautura) { repo.update(tipBautura); }
     public void delete(int id) { repo.delete(id); }
     public List<TipBautura> getAll() { return repo.findAll(); }
 }

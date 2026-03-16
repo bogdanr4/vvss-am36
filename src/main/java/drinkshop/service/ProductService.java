@@ -17,9 +17,9 @@ public class ProductService {
         this.validator = validator;
     }
 
-    public void addProduct(Product p) {
-        validator.validate(p);
-        productRepo.save(p);
+    public void addProduct(Product product) {
+        validator.validate(product);
+        productRepo.save(product);
     }
 
     public void updateProduct(Product updated) {
@@ -50,7 +50,7 @@ public class ProductService {
         if ("ALL".equals(categorie)) return getAllProducts();
         return getAllProducts().stream()
                 .filter(p -> categorie.equals(p.getCategorie()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<Product> filterByTip(String tip) {

@@ -16,6 +16,12 @@ import java.util.stream.Collectors;
 
 public class DrinkShopController {
 
+    @FXML public TableView<Stoc> stockTable;
+    @FXML public TableColumn<Product, Integer> stockId;
+    @FXML public TableColumn<Product, String> stockName;
+    @FXML public TableColumn<Product, Integer> stockQuantity;
+    @FXML public TableColumn<Product, Integer> stockMinimum;
+
     private DrinkShopService service;
 
     // ---------- PRODUCT ----------
@@ -62,6 +68,7 @@ public class DrinkShopController {
     @FXML private Label lblTotalRevenue;
 
     private ObservableList<Product> productList = FXCollections.observableArrayList();
+    private ObservableList<Stoc> stockList = FXCollections.observableArrayList();
     private ObservableList<Reteta> retetaList = FXCollections.observableArrayList();
     private ObservableList<IngredientReteta> newRetetaList = FXCollections.observableArrayList();
     private ObservableList<OrderItem> currentOrderItems = FXCollections.observableArrayList();
@@ -69,6 +76,8 @@ public class DrinkShopController {
     private ObservableList<CategorieBautura> categorieList = FXCollections.observableArrayList();
 
     private Order currentOrder = new Order(1);
+
+    private String introduceNameString = "Introduceți un nume.";
 
     public void setService(DrinkShopService service) {
         this.service = service;
@@ -123,6 +132,13 @@ public class DrinkShopController {
         colCategorieId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colCategorieName.setCellValueFactory(new PropertyValueFactory<>("nume"));
         categorieTable.setItems(categorieList);
+
+        // CATEGORII
+        stockId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        stockName.setCellValueFactory(new PropertyValueFactory<>("ingredient"));
+        stockMinimum.setCellValueFactory(new PropertyValueFactory<>("stocMinim"));
+        stockQuantity.setCellValueFactory(new PropertyValueFactory<>("cantitate"));
+        stockTable.setItems(stockList);
     }
 
     private void initData() {
@@ -133,6 +149,7 @@ public class DrinkShopController {
         refreshComboBoxes();
         tipList.setAll(service.getAllTipuri());
         categorieList.setAll(service.getAllCategorii());
+        stockList.setAll(service.getAllStocks());
     }
 
     private void refreshComboBoxes() {
@@ -267,11 +284,13 @@ public class DrinkShopController {
         currentOrder.computeTotalPrice();
 
         service.addOrder(currentOrder);
+
         txtReceipt.setText(service.generateReceipt(currentOrder));
 
         currentOrderItems.clear();
         currentOrder = new Order(currentOrder.getId() + 1);
         updateOrderTotal();
+        stockList.setAll(service.getAllStocks());
     }
 
     private void updateOrderTotal() {
@@ -284,7 +303,7 @@ public class DrinkShopController {
     @FXML
     private void onAddTip() {
         String name = txtTipName.getText().trim();
-        if (name.isEmpty()) { showError("Introduceți un nume."); return; }
+        if (name.isEmpty()) { showError(introduceNameString); return; }
         int newId = service.getAllTipuri().stream().mapToInt(TipBautura::getId).max().orElse(0) + 1;
         try {
             service.addTip(new TipBautura(newId, name));
@@ -301,7 +320,7 @@ public class DrinkShopController {
         TipBautura selected = tipTable.getSelectionModel().getSelectedItem();
         if (selected == null) { showError("Selectați un tip."); return; }
         String name = txtTipName.getText().trim();
-        if (name.isEmpty()) { showError("Introduceți un nume."); return; }
+        if (name.isEmpty()) { showError(introduceNameString); return; }
         try {
             service.updateTip(new TipBautura(selected.getId(), name));
         } catch (ValidationException e) {
@@ -329,7 +348,7 @@ public class DrinkShopController {
     @FXML
     private void onAddCategorie() {
         String name = txtCategorieName.getText().trim();
-        if (name.isEmpty()) { showError("Introduceți un nume."); return; }
+        if (name.isEmpty()) { showError(introduceNameString); return; }
         int newId = service.getAllCategorii().stream().mapToInt(CategorieBautura::getId).max().orElse(0) + 1;
         try {
             service.addCategorie(new CategorieBautura(newId, name));
@@ -346,7 +365,7 @@ public class DrinkShopController {
         CategorieBautura selected = categorieTable.getSelectionModel().getSelectedItem();
         if (selected == null) { showError("Selectați o categorie."); return; }
         String name = txtCategorieName.getText().trim();
-        if (name.isEmpty()) { showError("Introduceți un nume."); return; }
+        if (name.isEmpty()) { showError(introduceNameString); return; }
         try {
             service.updateCategorie(new CategorieBautura(selected.getId(), name));
         } catch (ValidationException e) {
