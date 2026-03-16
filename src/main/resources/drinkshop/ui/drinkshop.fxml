@@ -7,32 +7,32 @@
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="drinkshop.ui.DrinkShopController"
-            prefWidth="950"
-            prefHeight="650">
+            prefWidth="1100"
+            prefHeight="800">
 
     <center>
-        <VBox>
+        <VBox spacing="10">
             <padding>
                 <Insets top="15" right="15" bottom="15" left="15"/>
             </padding>
 
             <!-- PRODUSE + COMANDA -->
-            <HBox>
+            <HBox spacing="20">
 
                 <!-- PRODUSE -->
-                <VBox>
+                <VBox spacing="8">
                     <Label text="Produse"/>
-                    <TableView fx:id="productTable" prefHeight="150">
+                    <TableView fx:id="productTable" prefHeight="150" prefWidth="500">
                         <columns>
-                            <TableColumn fx:id="colProdId" text="ID"/>
-                            <TableColumn fx:id="colProdName" text="Nume"/>
-                            <TableColumn fx:id="colProdPrice" text="Pret"/>
-                            <TableColumn fx:id="colProdCategorie" text="Categorie"/>
-                            <TableColumn fx:id="colProdTip" text="Tip"/>
+                            <TableColumn fx:id="colProdId" text="ID" prefWidth="50"/>
+                            <TableColumn fx:id="colProdName" text="Nume" prefWidth="150"/>
+                            <TableColumn fx:id="colProdPrice" text="Pret" prefWidth="80"/>
+                            <TableColumn fx:id="colProdCategorie" text="Categorie" prefWidth="110"/>
+                            <TableColumn fx:id="colProdTip" text="Tip" prefWidth="110"/>
                         </columns>
                     </TableView>
 
-                    <HBox>
+                    <HBox spacing="8">
                         <TextField fx:id="txtProdName" promptText="Nume"/>
                         <TextField fx:id="txtProdPrice" promptText="Pret"/>
                         <Button text="Add" onAction="#onAddProduct"/>
@@ -40,33 +40,33 @@
                         <Button text="Delete" onAction="#onDeleteProduct"/>
                     </HBox>
 
-                    <HBox>
-                        <VBox>
+                    <HBox spacing="15">
+                        <VBox spacing="5">
                             <Label text="Categorie"/>
-                            <ComboBox fx:id="comboProdCategorie"/>
+                            <ComboBox fx:id="comboProdCategorie" prefWidth="180"/>
                         </VBox>
-                        <VBox>
+                        <VBox spacing="5">
                             <Label text="Tip Bautura"/>
-                            <ComboBox fx:id="comboProdTip"/>
+                            <ComboBox fx:id="comboProdTip" prefWidth="180"/>
                         </VBox>
                     </HBox>
 
                     <Label text="Filtrare"/>
-                    <HBox>
+                    <HBox spacing="8">
                         <Button text="Filter Categorie" onAction="#onFilterCategorie"/>
                         <Button text="Filter Tip" onAction="#onFilterTip"/>
                     </HBox>
                 </VBox>
 
                 <!-- COMANDA CURENTA -->
-                <VBox>
+                <VBox spacing="8">
                     <Label text="Comanda curenta"/>
 
-                    <HBox>
+                    <HBox spacing="10">
                         <!-- CONTROALE STANGA -->
-                        <VBox>
+                        <VBox spacing="8">
                             <Label text="Cantitate"/>
-                            <ComboBox fx:id="comboQty"/>
+                            <ComboBox fx:id="comboQty" prefWidth="120"/>
 
                             <Button text="Add Item" onAction="#onAddOrderItem"/>
                             <Button text="Delete Item" onAction="#onDeleteOrderItem"/>
@@ -78,14 +78,14 @@
                         <!-- TABEL DREAPTA -->
                         <TableView fx:id="currentOrderTable" prefHeight="150" prefWidth="350">
                             <columns>
-                                <TableColumn fx:id="colOrderProdName" text="Produs"/>
-                                <TableColumn fx:id="colOrderQty" text="Cantitate"/>
+                                <TableColumn fx:id="colOrderProdName" text="Produs" prefWidth="220"/>
+                                <TableColumn fx:id="colOrderQty" text="Cantitate" prefWidth="120"/>
                             </columns>
                         </TableView>
                     </HBox>
 
                     <Label text="Receipt"/>
-                    <TextArea fx:id="txtReceipt" prefHeight="90"/>
+                    <TextArea fx:id="txtReceipt" prefHeight="90" prefWidth="420"/>
                 </VBox>
 
             </HBox>
@@ -93,8 +93,8 @@
             <Separator/>
 
             <!-- RETETE -->
-            <HBox>
-                <VBox>
+            <HBox spacing="20">
+                <VBox spacing="8">
                     <Label text="Retete existente"/>
                     <TableView fx:id="retetaTable" prefHeight="220" prefWidth="500">
                         <columns>
@@ -104,7 +104,7 @@
                     </TableView>
                 </VBox>
 
-                <VBox>
+                <VBox spacing="8">
                     <Label text="Reteta noua"/>
                     <TableView fx:id="newRetetaTable" prefHeight="180" prefWidth="420">
                         <columns>
@@ -113,12 +113,12 @@
                         </columns>
                     </TableView>
 
-                    <HBox>
+                    <HBox spacing="8">
                         <TextField fx:id="txtNewIngredName" promptText="Ingredient"/>
                         <TextField fx:id="txtNewIngredCant" promptText="Cantitate"/>
                     </HBox>
 
-                    <HBox>
+                    <HBox spacing="8">
                         <Button text="Add Ingredient" onAction="#onAddNewIngred"/>
                         <Button text="Delete Ingredient" onAction="#onDeleteNewIngred"/>
                         <Button text="Clear Ingredients" onAction="#onClearNewRetetaIngredients"/>
@@ -129,7 +129,53 @@
 
             <Separator/>
 
-            <HBox>
+            <!-- TIPURI + CATEGORII -->
+            <HBox spacing="20">
+
+                <!-- TIPURI -->
+                <VBox spacing="8">
+                    <Label text="Tipuri bautura"/>
+                    <TableView fx:id="tipTable" prefHeight="180" prefWidth="300">
+                        <columns>
+                            <TableColumn fx:id="colTipId" text="ID" prefWidth="80"/>
+                            <TableColumn fx:id="colTipName" text="Nume" prefWidth="200"/>
+                        </columns>
+                    </TableView>
+
+                    <TextField fx:id="txtTipName" promptText="Nume tip"/>
+
+                    <HBox spacing="8">
+                        <Button text="Add Tip" onAction="#onAddTip"/>
+                        <Button text="Update Tip" onAction="#onUpdateTip"/>
+                        <Button text="Delete Tip" onAction="#onDeleteTip"/>
+                    </HBox>
+                </VBox>
+
+                <!-- CATEGORII -->
+                <VBox spacing="8">
+                    <Label text="Categorii bautura"/>
+                    <TableView fx:id="categorieTable" prefHeight="180" prefWidth="300">
+                        <columns>
+                            <TableColumn fx:id="colCategorieId" text="ID" prefWidth="80"/>
+                            <TableColumn fx:id="colCategorieName" text="Nume" prefWidth="200"/>
+                        </columns>
+                    </TableView>
+
+                    <TextField fx:id="txtCategorieName" promptText="Nume categorie"/>
+
+                    <HBox spacing="8">
+                        <Button text="Add Categorie" onAction="#onAddCategorie"/>
+                        <Button text="Update Categorie" onAction="#onUpdateCategorie"/>
+                        <Button text="Delete Categorie" onAction="#onDeleteCategorie"/>
+                    </HBox>
+                </VBox>
+
+            </HBox>
+
+            <Separator/>
+
+            <!-- EXPORT + REVENUE -->
+            <HBox spacing="10">
                 <Button text="Export CSV" onAction="#onExportOrdersCsv"/>
                 <Button text="Update Revenue" onAction="#onDailyRevenue"/>
                 <Label fx:id="lblTotalRevenue" text="Daily Revenue: 0"/>

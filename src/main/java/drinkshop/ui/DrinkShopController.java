@@ -2,6 +2,7 @@ package drinkshop.ui;
 
 import drinkshop.domain.*;
 import drinkshop.service.DrinkShopService;
+import drinkshop.service.validator.ValidationException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class DrinkShopController {
@@ -21,11 +23,11 @@ public class DrinkShopController {
     @FXML private TableColumn<Product, Integer> colProdId;
     @FXML private TableColumn<Product, String> colProdName;
     @FXML private TableColumn<Product, Double> colProdPrice;
-    @FXML private TableColumn<Product, CategorieBautura> colProdCategorie;
-    @FXML private TableColumn<Product, TipBautura> colProdTip;
+    @FXML private TableColumn<Product, String> colProdCategorie;
+    @FXML private TableColumn<Product, String> colProdTip;
     @FXML private TextField txtProdName, txtProdPrice;
-    @FXML private ComboBox<CategorieBautura> comboProdCategorie;
-    @FXML private ComboBox<TipBautura> comboProdTip;
+    @FXML private ComboBox<String> comboProdCategorie;
+    @FXML private ComboBox<String> comboProdTip;
 
     // ---------- RETETE ----------
     @FXML private TableView<Reteta> retetaTable;
@@ -42,6 +44,17 @@ public class DrinkShopController {
     @FXML private TableColumn<OrderItem, String> colOrderProdName;
     @FXML private TableColumn<OrderItem, Integer> colOrderQty;
 
+    @FXML private TableView<TipBautura> tipTable;
+    @FXML private TableColumn<TipBautura, Integer> colTipId;
+    @FXML private TableColumn<TipBautura, String> colTipName;
+    @FXML private TextField txtTipName;
+
+    // ---------- CATEGORII ----------
+    @FXML private TableView<CategorieBautura> categorieTable;
+    @FXML private TableColumn<CategorieBautura, Integer> colCategorieId;
+    @FXML private TableColumn<CategorieBautura, String> colCategorieName;
+    @FXML private TextField txtCategorieName;
+
     @FXML private ComboBox<Integer> comboQty;
     @FXML private Label lblOrderTotal;
     @FXML private TextArea txtReceipt;
@@ -52,6 +65,8 @@ public class DrinkShopController {
     private ObservableList<Reteta> retetaList = FXCollections.observableArrayList();
     private ObservableList<IngredientReteta> newRetetaList = FXCollections.observableArrayList();
     private ObservableList<OrderItem> currentOrderItems = FXCollections.observableArrayList();
+    private ObservableList<TipBautura> tipList = FXCollections.observableArrayList();
+    private ObservableList<CategorieBautura> categorieList = FXCollections.observableArrayList();
 
     private Order currentOrder = new Order(1);
 
@@ -71,8 +86,7 @@ public class DrinkShopController {
         colProdTip.setCellValueFactory(new PropertyValueFactory<>("tip"));
         productTable.setItems(productList);
 
-        comboProdCategorie.getItems().setAll(CategorieBautura.values());
-        comboProdTip.getItems().setAll(TipBautura.values());
+
 
         // RETETE
         colRetetaId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -99,6 +113,16 @@ public class DrinkShopController {
         currentOrderTable.setItems(currentOrderItems);
 
         comboQty.setItems(FXCollections.observableArrayList(1,2,3,4,5,6,7,8,9,10));
+
+        // TIPURI
+        colTipId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colTipName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tipTable.setItems(tipList);
+
+        // CATEGORII
+        colCategorieId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colCategorieName.setCellValueFactory(new PropertyValueFactory<>("nume"));
+        categorieTable.setItems(categorieList);
     }
 
     private void initData() {
@@ -106,6 +130,21 @@ public class DrinkShopController {
         retetaList.setAll(service.getAllRetete());
         lblTotalRevenue.setText("Daily Revenue: " + service.getDailyRevenue());
         updateOrderTotal();
+        refreshComboBoxes();
+        tipList.setAll(service.getAllTipuri());
+        categorieList.setAll(service.getAllCategorii());
+    }
+
+    private void refreshComboBoxes() {
+        List<String> tipNames = new ArrayList<>();
+        tipNames.add("ALL");
+        service.getAllTipuri().forEach(t -> tipNames.add(t.getName()));
+        comboProdTip.setItems(FXCollections.observableArrayList(tipNames));
+
+        List<String> categorieNames = new ArrayList<>();
+        categorieNames.add("ALL");
+        service.getAllCategorii().forEach(c -> categorieNames.add(c.getNume()));
+        comboProdCategorie.setItems(FXCollections.observableArrayList(categorieNames));
     }
 
     // ---------- PRODUCT ----------
@@ -140,9 +179,10 @@ public class DrinkShopController {
     private void onUpdateProduct() {
         Product selected = productTable.getSelectionModel().getSelectedItem();
         if (selected == null) return;
-        service.updateProduct(selected.getId(), txtProdName.getText(),
+        Product updated = new Product(selected.getId(), txtProdName.getText(),
                 Double.parseDouble(txtProdPrice.getText()),
                 comboProdCategorie.getValue(), comboProdTip.getValue());
+        service.updateProduct(updated);
         initData();
     }
 
@@ -240,6 +280,96 @@ public class DrinkShopController {
         double total = service.computeTotal(currentOrder);
         lblOrderTotal.setText("Total: " + total);
     }
+
+    @FXML
+    private void onAddTip() {
+        String name = txtTipName.getText().trim();
+        if (name.isEmpty()) { showError("Introduceți un nume."); return; }
+        int newId = service.getAllTipuri().stream().mapToInt(TipBautura::getId).max().orElse(0) + 1;
+        try {
+            service.addTip(new TipBautura(newId, name));
+        } catch (ValidationException e) {
+            showError(e.getMessage());
+            return;
+        }
+        txtTipName.clear();
+        initData();
+    }
+
+    @FXML
+    private void onUpdateTip() {
+        TipBautura selected = tipTable.getSelectionModel().getSelectedItem();
+        if (selected == null) { showError("Selectați un tip."); return; }
+        String name = txtTipName.getText().trim();
+        if (name.isEmpty()) { showError("Introduceți un nume."); return; }
+        try {
+            service.updateTip(new TipBautura(selected.getId(), name));
+        } catch (ValidationException e) {
+            showError(e.getMessage());
+            return;
+        }
+        txtTipName.clear();
+        initData();
+    }
+
+    @FXML
+    private void onDeleteTip() {
+        TipBautura selected = tipTable.getSelectionModel().getSelectedItem();
+        if (selected == null) { showError("Selectați un tip."); return; }
+        try {
+            service.deleteTip(selected.getId());
+        } catch (ValidationException e) {
+            showError(e.getMessage());
+            return;
+        }
+        initData();
+    }
+
+    // ---------- CATEGORII ----------
+    @FXML
+    private void onAddCategorie() {
+        String name = txtCategorieName.getText().trim();
+        if (name.isEmpty()) { showError("Introduceți un nume."); return; }
+        int newId = service.getAllCategorii().stream().mapToInt(CategorieBautura::getId).max().orElse(0) + 1;
+        try {
+            service.addCategorie(new CategorieBautura(newId, name));
+        } catch (ValidationException e) {
+            showError(e.getMessage());
+            return;
+        }
+        txtCategorieName.clear();
+        initData();
+    }
+
+    @FXML
+    private void onUpdateCategorie() {
+        CategorieBautura selected = categorieTable.getSelectionModel().getSelectedItem();
+        if (selected == null) { showError("Selectați o categorie."); return; }
+        String name = txtCategorieName.getText().trim();
+        if (name.isEmpty()) { showError("Introduceți un nume."); return; }
+        try {
+            service.updateCategorie(new CategorieBautura(selected.getId(), name));
+        } catch (ValidationException e) {
+            showError(e.getMessage());
+            return;
+        }
+        txtCategorieName.clear();
+        initData();
+    }
+
+    @FXML
+    private void onDeleteCategorie() {
+        CategorieBautura selected = categorieTable.getSelectionModel().getSelectedItem();
+        if (selected == null) { showError("Selectați o categorie."); return; }
+        try {
+            service.deleteCategorie(selected.getId());
+        } catch (ValidationException e) {
+            showError(e.getMessage());
+            return;
+        }
+        initData();
+    }
+
 
     // ---------- EXPORT + REVENUE ----------
     @FXML

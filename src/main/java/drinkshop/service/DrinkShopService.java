@@ -15,18 +15,25 @@ public class DrinkShopService {
     private final RetetaService retetaService;
     private final StocService stocService;
     private final DailyReportService report;
+    private final TipBauturaService tipBauturaService;
+    private final CategorieService categorieService;
 
     public DrinkShopService(
-            Repository<Integer, Product> productRepo,
-            Repository<Integer, Order> orderRepo,
-            Repository<Integer, Reteta> retetaRepo,
-            Repository<Integer, Stoc> stocService
+          ProductService productService,
+            OrderService orderService,
+            RetetaService retetaService,
+            StocService stocService,
+            DailyReportService report,
+            TipBauturaService tipBauturaService,
+            CategorieService categorieBauturaService
     ) {
-        this.productService = new ProductService(productRepo);
-        this.orderService = new OrderService(orderRepo, productRepo);
-        this.retetaService = new RetetaService(retetaRepo);
-        this.stocService = new StocService(stocService);
-        this.report = new DailyReportService(orderRepo);
+        this.productService = productService;
+        this.orderService = orderService;
+        this.retetaService = retetaService;
+        this.stocService = stocService;
+        this.report = report;
+        this.tipBauturaService = tipBauturaService;
+        this.categorieService = categorieBauturaService;
     }
 
     // ---------- PRODUCT ----------
@@ -34,8 +41,8 @@ public class DrinkShopService {
         productService.addProduct(p);
     }
 
-    public void updateProduct(int id, String name, double price, CategorieBautura categorie, TipBautura tip) {
-        productService.updateProduct(id, name, price, categorie, tip);
+    public void updateProduct(Product p) {
+        productService.updateProduct(p);
     }
 
     public void deleteProduct(int id) {
@@ -46,11 +53,11 @@ public class DrinkShopService {
         return productService.getAllProducts();
     }
 
-    public List<Product> filtreazaDupaCategorie(CategorieBautura categorie) {
+    public List<Product> filtreazaDupaCategorie(String categorie) {
         return productService.filterByCategorie(categorie);
     }
 
-    public List<Product> filtreazaDupaTip(TipBautura tip) {
+    public List<Product> filtreazaDupaTip(String tip) {
         return productService.filterByTip(tip);
     }
 
@@ -104,4 +111,39 @@ public class DrinkShopService {
     public void deleteReteta(int id) {
         retetaService.deleteReteta(id);
     }
+
+    // ---------- TIP BAUTURA ----------
+    public List<TipBautura> getAllTipuri() {
+        return tipBauturaService.getAll();
+    }
+
+    public void addTip(TipBautura t) {
+        tipBauturaService.add(t);
+    }
+
+    public void updateTip(TipBautura t) {
+        tipBauturaService.update(t);
+    }
+
+    public void deleteTip(int id) {
+        tipBauturaService.delete(id);
+    }
+
+    // ---------- CATEGORIE BAUTURA ----------
+    public List<CategorieBautura> getAllCategorii() {
+        return categorieService.getAll();
+    }
+
+    public void addCategorie(CategorieBautura c) {
+        categorieService.add(c);
+    }
+
+    public void updateCategorie(CategorieBautura c) {
+        categorieService.update(c);
+    }
+
+    public void deleteCategorie(int id) {
+        categorieService.delete(id);
+    }
+
 }
