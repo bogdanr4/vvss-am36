@@ -16,6 +16,12 @@ import java.util.stream.Collectors;
 
 public class DrinkShopController {
 
+    @FXML public TableView<Stoc> stockTable;
+    @FXML public TableColumn<Product, Integer> stockId;
+    @FXML public TableColumn<Product, String> stockName;
+    @FXML public TableColumn<Product, Integer> stockQuantity;
+    @FXML public TableColumn<Product, Integer> stockMinimum;
+
     private DrinkShopService service;
 
     // ---------- PRODUCT ----------
@@ -62,6 +68,7 @@ public class DrinkShopController {
     @FXML private Label lblTotalRevenue;
 
     private ObservableList<Product> productList = FXCollections.observableArrayList();
+    private ObservableList<Stoc> stockList = FXCollections.observableArrayList();
     private ObservableList<Reteta> retetaList = FXCollections.observableArrayList();
     private ObservableList<IngredientReteta> newRetetaList = FXCollections.observableArrayList();
     private ObservableList<OrderItem> currentOrderItems = FXCollections.observableArrayList();
@@ -123,6 +130,13 @@ public class DrinkShopController {
         colCategorieId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colCategorieName.setCellValueFactory(new PropertyValueFactory<>("nume"));
         categorieTable.setItems(categorieList);
+
+        // CATEGORII
+        stockId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        stockName.setCellValueFactory(new PropertyValueFactory<>("ingredient"));
+        stockMinimum.setCellValueFactory(new PropertyValueFactory<>("stocMinim"));
+        stockQuantity.setCellValueFactory(new PropertyValueFactory<>("cantitate"));
+        stockTable.setItems(stockList);
     }
 
     private void initData() {
@@ -133,6 +147,7 @@ public class DrinkShopController {
         refreshComboBoxes();
         tipList.setAll(service.getAllTipuri());
         categorieList.setAll(service.getAllCategorii());
+        stockList.setAll(service.getAllStocks());
     }
 
     private void refreshComboBoxes() {
@@ -267,11 +282,13 @@ public class DrinkShopController {
         currentOrder.computeTotalPrice();
 
         service.addOrder(currentOrder);
+
         txtReceipt.setText(service.generateReceipt(currentOrder));
 
         currentOrderItems.clear();
         currentOrder = new Order(currentOrder.getId() + 1);
         updateOrderTotal();
+        stockList.setAll(service.getAllStocks());
     }
 
     private void updateOrderTotal() {

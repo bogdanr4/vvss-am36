@@ -17,9 +17,9 @@ public class ProductService {
         this.validator = validator;
     }
 
-    public void addProduct(Product p) {
-        validator.validate(p);
-        productRepo.save(p);
+    public void addProduct(Product product) {
+        validator.validate(product);
+        productRepo.save(product);
     }
 
     public void updateProduct(Product updated) {

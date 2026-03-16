@@ -17,14 +17,14 @@ public class RetetaService {
         this.validator = validator;
     }
 
-    public void addReteta(Reteta r) {
-        validator.validate(r);
-        retetaRepo.save(r);
+    public void addReteta(Reteta reteta) {
+        validator.validate(reteta);
+        retetaRepo.save(reteta);
     }
 
-    public void updateReteta(Reteta r) {
-        validator.validate(r);
-        retetaRepo.update(r);
+    public void updateReteta(Reteta reteta) {
+        validator.validate(reteta);
+        retetaRepo.update(reteta);
     }
 
     public void deleteReteta(int id) {

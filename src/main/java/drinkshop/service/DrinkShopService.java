@@ -4,7 +4,6 @@ import drinkshop.domain.*;
 import drinkshop.export.CsvExporter;
 import drinkshop.receipt.ReceiptGenerator;
 import drinkshop.reports.DailyReportService;
-import drinkshop.repository.Repository;
 
 import java.util.List;
 
@@ -62,20 +61,26 @@ public class DrinkShopService {
     }
 
     // ---------- ORDER ----------
-    public void addOrder(Order o) {
-        orderService.addOrder(o);
+    public void addOrder(Order order) {
+
+        for(OrderItem o : order.getItems()){
+            for(int i = 0; i < o.getQuantity(); i++)
+                comandaProdus(o.getProduct());
+        }
+
+        orderService.addOrder(order);
     }
 
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
 
-    public double computeTotal(Order o) {
-        return orderService.computeTotal(o);
+    public double computeTotal(Order order) {
+        return orderService.computeTotal(order);
     }
 
-    public String generateReceipt(Order o) {
-        return ReceiptGenerator.generate(o, productService.getAllProducts());
+    public String generateReceipt(Order order) {
+        return ReceiptGenerator.generate(order, productService.getAllProducts());
     }
 
     public double getDailyRevenue() {
@@ -100,12 +105,12 @@ public class DrinkShopService {
         return retetaService.getAll();
     }
 
-    public void addReteta(Reteta r) {
-        retetaService.addReteta(r);
+    public void addReteta(Reteta reteta) {
+        retetaService.addReteta(reteta);
     }
 
-    public void updateReteta(Reteta r) {
-        retetaService.updateReteta(r);
+    public void updateReteta(Reteta reteta) {
+        retetaService.updateReteta(reteta);
     }
 
     public void deleteReteta(int id) {
@@ -117,12 +122,12 @@ public class DrinkShopService {
         return tipBauturaService.getAll();
     }
 
-    public void addTip(TipBautura t) {
-        tipBauturaService.add(t);
+    public void addTip(TipBautura tipBautura) {
+        tipBauturaService.add(tipBautura);
     }
 
-    public void updateTip(TipBautura t) {
-        tipBauturaService.update(t);
+    public void updateTip(TipBautura tipBautura) {
+        tipBauturaService.update(tipBautura);
     }
 
     public void deleteTip(int id) {
@@ -134,16 +139,20 @@ public class DrinkShopService {
         return categorieService.getAll();
     }
 
-    public void addCategorie(CategorieBautura c) {
-        categorieService.add(c);
+    public void addCategorie(CategorieBautura categorieBautura) {
+        categorieService.add(categorieBautura);
     }
 
-    public void updateCategorie(CategorieBautura c) {
-        categorieService.update(c);
+    public void updateCategorie(CategorieBautura categorieBautura) {
+        categorieService.update(categorieBautura);
     }
 
     public void deleteCategorie(int id) {
         categorieService.delete(id);
+    }
+
+    public List<Stoc> getAllStocks(){
+        return stocService.getAll();
     }
 
 }

@@ -13,8 +13,8 @@ public class CategorieService {
         this.repo = repo;
     }
 
-    public void add(CategorieBautura c) { repo.save(c); }
-    public void update(CategorieBautura c) { repo.update(c); }
+    public void add(CategorieBautura categorieBautura) { repo.save(categorieBautura); }
+    public void update(CategorieBautura categorieBautura) { repo.update(categorieBautura); }
     public void delete(int id) { repo.delete(id); }
     public List<CategorieBautura> getAll() { return repo.findAll(); }
 }

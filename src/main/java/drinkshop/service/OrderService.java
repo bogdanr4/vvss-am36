@@ -45,19 +45,19 @@ public class OrderService {
         return orderRepo.findOne(id);
     }
 
-    public double computeTotal(Order o) {
-        return o.getItems().stream()
+    public double computeTotal(Order order) {
+        return order.getItems().stream()
                 .mapToDouble(i -> productRepo.findOne(i.getProduct().getId()).getPret() * i.getQuantity())
                 .sum();
     }
 
-    public void addItem(Order o, OrderItem item) {
-        o.getItems().add(item);
-        orderRepo.update(o);
+    public void addItem(Order order, OrderItem item) {
+        order.getItems().add(item);
+        orderRepo.update(order);
     }
 
-    public void removeItem(Order o, OrderItem item) {
-        o.getItems().remove(item);
-        orderRepo.update(o);
+    public void removeItem(Order order, OrderItem item) {
+        order.getItems().remove(item);
+        orderRepo.update(order);
     }
 }

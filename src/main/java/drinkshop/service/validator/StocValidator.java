@@ -15,10 +15,10 @@ public class StocValidator implements Validator<Stoc> {
         if (stoc.getIngredient() == null || stoc.getIngredient().isBlank())
             errors += "Ingredient invalid!\n";
 
-        if (stoc.getCantitate() < 0)
+        if (stoc.getCantitate() <= 0)
             errors += "Cantitate negativa!\n";
 
-        if (stoc.getStocMinim() < 0)
+        if (stoc.getStocMinim() <= 0)
             errors += "Stoc minim negativ!\n";
 
         if (stoc.getCantitate() < stoc.getStocMinim())
