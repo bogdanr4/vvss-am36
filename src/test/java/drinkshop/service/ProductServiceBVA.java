@@ -10,7 +10,7 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@DisplayName("ProductService BVA tests for updateProduct")
+@DisplayName("ProductService BVA tests for addProduct")
 @Tag("BVA")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProductServiceBVA {
