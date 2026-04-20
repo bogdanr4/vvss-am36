@@ -20,11 +20,21 @@ public class RetetaValidator implements Validator<Reteta> {
         if (ingrediente == null || ingrediente.isEmpty())
             errors.accumulateAndGet("Ingrediente empty!\n", String::concat);
 
-        ingrediente.stream()
-                .filter(entry -> entry.getCantitate() <= 0)
-                .forEach(entry -> {
-                    errors.accumulateAndGet("[" + entry.getDenumire() + "]"+ "cantitate negativa sau zero", String::concat);
-                });
+
+        int i = 0;
+        while(i < ingrediente.size()){
+
+            if(ingrediente.get(i).getCantitate() <= 0)
+                errors.accumulateAndGet("[" + ingrediente.get(i).getDenumire() + "]"+ "cantitate negativa sau zero",
+                            String::concat);
+            i++;
+        }
+//        ingrediente.stream()
+//                .filter(entry -> entry.getCantitate() <= 0)
+//                .forEach(entry -> {
+//                    errors.accumulateAndGet("[" + entry.getDenumire() + "]"+ "cantitate negativa sau zero",
+//                            String::concat);
+//                });
 
         if (!errors.get().isEmpty())
             throw new ValidationException(errors.get());
