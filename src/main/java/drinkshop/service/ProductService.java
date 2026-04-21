@@ -50,7 +50,7 @@ public class ProductService {
         if ("ALL".equals(categorie)) return getAllProducts();
         return getAllProducts().stream()
                 .filter(p -> categorie.equals(p.getCategorie()))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public List<Product> filterByTip(String tip) {
