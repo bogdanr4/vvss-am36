@@ -3,6 +3,7 @@ package drinkshop.repository.file;
 import drinkshop.repository.AbstractRepository;
 
 import java.io.*;
+import java.util.List;
 
 public abstract class FileAbstractRepository<I, E>
         extends AbstractRepository<I, E> {
@@ -59,6 +60,11 @@ public abstract class FileAbstractRepository<I, E>
         E e = super.update(entity);
         writeToFile();
         return e;
+    }
+    @Override
+    public List<E> findAll(){
+        loadFromFile();
+        return super.findAll();
     }
 
     protected abstract E extractEntity(String line);
