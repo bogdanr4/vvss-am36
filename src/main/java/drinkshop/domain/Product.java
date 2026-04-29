@@ -1,6 +1,7 @@
 package drinkshop.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Product implements Serializable {
 
@@ -40,5 +41,17 @@ public class Product implements Serializable {
     @Override
     public String toString() {
         return nume + " (" + categorie + ", " + tip + ") - " + pret + " lei";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id && Double.compare(pret, product.pret) == 0 && Objects.equals(nume, product.nume) && Objects.equals(categorie, product.categorie) && Objects.equals(tip, product.tip);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nume, pret, categorie, tip);
     }
 }
