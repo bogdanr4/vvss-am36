@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><title>testspec Proiect236 - rbir3621_IntT</title>
+<link type="text/css" rel="stylesheet" href="https://www.scs.ubbcluj.ro/testlink/gui/themes/default/css/tl_documents.css" />
+<style type="text/css" media="print">.notprintable { display:none;}</style>
+</head>
+<body>
+<div>
+<div style="float:right;">TestLink Community [configure $tlCfg-&gt;document_generator-&gt;company_name]</div>
+<div>&nbsp;</div><hr />
+<p style="text-align: center;"><img alt="TestLink logo" title="configure using $tlCfg->document_generator->company_logo"  width= height= src="https://www.scs.ubbcluj.ro/testlink/gui/themes/default/images/tl-logo-transparent-25.png" /></p></div>
+<div class="doc_title"><p>Test Specification</p></div>
+<div class="doc_title" style="text-align:left;margin: auto;"><p>Test Project: Proiect236<br/>Test Suite: Proiect236 - rbir3621_IntT</p></div>
+<div class="summary"><p id="printedby">Printed by TestLink on 04/05/2026</p></div>
+<div class="pagefooter" id="copyright">2012 &copy; TestLink Community</div>
+<h1 class="general" style="page-break-before: always">Table Of Contents</h1><div class="toc"><p style="padding-left: 20px;"><b><a href="#toc_1">1.rbir3621_IntT</a></b></p>
+<p style="padding-left: 45px;"><a href="#toc_tc30149">P236-43: TC01-UnitS</a></p><p style="padding-left: 45px;"><a href="#toc_tc30151">P236-44: TC02-V</a></p><p style="padding-left: 45px;"><a href="#toc_tc30153">P236-45: TC03-R</a></p></div><h1 class="doclevel" >Scope</h1>
+<div class="txtlevel"><p>Proiect de testare pentru studentii din grupa 236.</p></div>
+ <br/><a name='toc_1'></a>
+<h1 class='doclevel'>1.Test Suite : rbir3621_IntT</h1>
+<div><p>Integration Testing</p>
+</div><a name="toc_tc30149"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P236-43: TC01-UnitS&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">rbir3621</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Se testeaza adaugarea unui produs valid din&nbsp;ProductService&nbsp;folosind mock-uri pentru Validator&lt;Product&gt; si Repository&lt;Integer, Product&gt;.</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><p>ProductService este creat cu mock-uri pentru validator si repository.</p>
+</td></tr><tr><td><span class="label">#:</span></td><td><span class="label">Step actions:</span></td><td><span class="label">Expected Results:</span></td></tr><tr><td width="5">1</td><td><ul>
+	<li>Se apeleaza addProduct()</li>
+	<li>Se verifica daca validate()&nbsp;si save() au fost apelate</li>
+</ul>
+</td><td><p>Succes</p>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.lab4.ProductUnitTesting</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >drinkshop.lab4.ProductUnitTesting#addProduct_validProduct</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">&nbsp;None<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc30151"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P236-44: TC02-V&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">rbir3621</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Se testeaza adaugarea unui produs valid din&nbsp;ProductService&nbsp;folosind mock pentru&nbsp;Repository&lt;Integer, Product&gt; si validator real (ProductValidator).</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><p>ProductService este creat folosind mock pentru Repository&lt;Integer, Product&gt; si validator real (ProductValidator).</p>
+</td></tr><tr><td><span class="label">#:</span></td><td><span class="label">Step actions:</span></td><td><span class="label">Expected Results:</span></td></tr><tr><td width="5">1</td><td><ul>
+	<li>Se apeleaza addProduct()</li>
+	<li>Se verifica daca save() a fost apelat</li>
+</ul>
+</td><td><p>Succes (validatorul nu arunca exceptie)</p>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.lab4.ProductIntegrationTestingV</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >drinkshop.lab4.ProductIntegrationTestingV#addProduct_validProduct</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">&nbsp;None<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc30153"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P236-45: TC03-R&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">rbir3621</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Se testeaza adaugarea unui produs valid din&nbsp;ProductService cu validator real (ProductValidator)&nbsp;si repository real&nbsp;(FileProductRepository cu fisier de test).</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><p>ProductService este creat cu&nbsp;validator real (ProductValidator)&nbsp;si repository real (FileProductRepository cu fisier de test).</p>
+</td></tr><tr><td><span class="label">#:</span></td><td><span class="label">Step actions:</span></td><td><span class="label">Expected Results:</span></td></tr><tr><td width="5">1</td><td><ul>
+	<li>Se apeleaza addProduct()</li>
+	<li>Se verifica daca lista cu produse contine produsul adaugat (si doar el)</li>
+</ul>
+</td><td><p>Succes</p>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.lab4.ProductIntegrationTestingV</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >drinkshop.lab4.ProductIntegrationTestingV#addProduct_validProduct</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">&nbsp;None<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+
+</body>
+</html>
