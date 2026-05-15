@@ -9,19 +9,16 @@ import java.time.Duration;
 
 @DefaultUrl("https://www.pbinfo.ro")
 public class HomePage extends PageObject {
-    @FindBy(xpath = "/html/body/div[1]/nav/div/div/ul[2]/li[1]/a")
-    private WebElementFacade loginModalTrigger;
-
-    @FindBy(id = "user_login")
+    @FindBy(id = "user")
     private WebElementFacade usernameInput;
 
-    @FindBy(id = "parola_login")
+    @FindBy(id = "parola")
     private WebElementFacade passwordInput;
 
-    @FindBy(xpath = "/html/body/div[1]/div[1]/div/div/form/div[3]/div/div[1]/button[2]")
+    @FindBy(xpath = "/html/body/div[1]/div[6]/div/div[3]/div[1]/div[1]/form/div/div[3]/div[2]/button")
     private WebElementFacade loginButton;
 
-    @FindBy(xpath = "/html/body/div[1]/div[1]/div/div/form/div[2]/div[3]/div")
+    @FindBy(xpath = "/html/body/div[1]/div[6]/div/div[3]/div[1]/div[1]/form/div/div[2]/div[3]/div")
     private WebElementFacade loginErrorMessage;
 
     @FindBy(xpath = "/html/body/div[1]/nav/div/div/ul[2]/li[5]/a")
@@ -32,10 +29,6 @@ public class HomePage extends PageObject {
 
     @FindBy(css = "button.fc-cta-do-not-consent")
     private WebElementFacade refuseCookiesButton;
-
-    public void openLoginModal() {
-        loginModalTrigger.waitUntilClickable().click();
-    }
 
     public void enterUsername(String username) {
         usernameInput.waitUntilVisible().type(username);

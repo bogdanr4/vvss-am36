@@ -19,7 +19,6 @@ public class UserSteps {
 
     @Step("Login cu user {0} si parola {1}")
     public void login(String username, String password) {
-        homePage.openLoginModal();
         homePage.enterUsername(username);
         homePage.enterPassword(password);
         homePage.clickLogin();
